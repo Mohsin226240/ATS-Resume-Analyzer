@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-4">
+  <h2>CV Analysis Results</h2>
+
+  {% if results %}
+    {% for result in results %}
+    <div class="card my-4 p-3 shadow-sm">
+      <h5>📄 {{ result.filename }}</h5>
+      <p><strong>Match Score:</strong> {{ result.score }}%</p>
+      <p><strong>Professionalism Score:</strong> {{ result.professionalism_score }}/10</p>
+      
+      <p><strong>Matched Keywords:</strong>
+        {% if result.keywords %}
+          {{ result.keywords|join:", " }}
+        {% else %}
+          <em>No keywords matched.</em>
+        {% endif %}
+      </p>
+
+      <p><strong>🎓 Certifications:</strong>
+        {% if result.certifications %}
+          {{ result.certifications|join:", " }}
+        {% else %}
+          <em>No certifications found.</em>
+        {% endif %}
+      </p>
+
+      <p><strong>🛠️ Suggestions:</strong>
+        <ul>
+          {% for s in result.suggestions %}
+            <li>{{ s }}</li>
+          {% endfor %}
+        </ul>
+      </p>
+
+      {% if result.download_link %}
+        <a href="{{ result.download_link }}" class="btn btn-sm btn-success mt-2">⬇️ Download Report</a>
+      {% endif %}
+    </div>
+    {% endfor %}
+  {% else %}
+    <p>No results to display.</p>
+  {% endif %}
+</div>
+{% endblock %}
